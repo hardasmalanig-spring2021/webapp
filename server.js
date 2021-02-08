@@ -30,3 +30,9 @@ app.listen(PORT, () => {
     console.log("server is running on port", PORT)
 })
 
+const database = require("./loaders/db.loader");
+
+database.sequelize.sync({force: true}).then(() => {
+    console.log('Drop and Resync Db');
+    initial();
+  }).catch(err=>{err});
