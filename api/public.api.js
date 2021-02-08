@@ -1,3 +1,4 @@
+const { validateCreateUser } = require("../middleware");
 const userService = require("../services/user.service")
 
 module.exports = function(app) {
@@ -12,6 +13,9 @@ module.exports = function(app) {
 
     app.post(
         "/v1/user",
+        [
+            validateCreateUser.checkDuplicateUsername
+        ],
         userService.createUser
     )
 }
