@@ -1,5 +1,7 @@
-const { validateCreateUser } = require("../middleware");
-const userService = require("../services/user.service")
+const { validation } = require("../middleware");
+const userService = require("../services/user.service");
+const auth = require("../middleware/basicAuthentication");
+
 
 module.exports = function(app) {
     app.use(function(req,res,next){
@@ -14,10 +16,17 @@ module.exports = function(app) {
     app.post(
         "/v1/user",
         [
-            validateCreateUser.checkDuplicateUsername
+            validation.checkDuplicateUsername
         ],
         userService.createUser
     )
 
     app.get("/v1/user/:id", userService.getUserWithId );
+
+    app.put("/v1/user/self",[
+        auth.BasicAuth,
+        validation.checkUsernameUpdate,
+        validation.passwordValidation
+      
+    ],userService.updateUser);
 }

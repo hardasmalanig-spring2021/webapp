@@ -1,5 +1,6 @@
-const validateCreateUser = require("./validateCreateUser");
-
+const validation = require("./userValidation");
+const basicAuth =require("./basicAuthentication")
 module.exports = {
-  validateCreateUser
+  validation,
+  basicAuth
 };
