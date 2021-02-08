@@ -18,4 +18,6 @@ module.exports = function(app) {
         ],
         userService.createUser
     )
+
+    app.get("/v1/user/:id", userService.getUserWithId );
 }
