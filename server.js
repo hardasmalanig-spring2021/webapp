@@ -32,10 +32,11 @@ app.listen(PORT, () => {
 
 const database = require("./loaders/db.loader");
 
-
 require("./api/public.api")(app);
 
 database.sequelize.sync({force: true}).then(() => {
     console.log('Drop and Resync Db');
     initial();
   }).catch(err=>{err});
+
+  module.exports = app;
