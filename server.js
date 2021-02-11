@@ -22,8 +22,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 const database = require("./loaders/db.loader");
 
 // //Force:true if you want the data to clear everytime server is started
-// database.sequelize.sync().then(() => {
-// }).catch(err => { err });
+database.sequelize.sync();
 
 app.listen(PORT, () => {
     console.log("server is running on port", PORT)
