@@ -1,6 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const cors = require("cors"); 
+const cors = require("cors");
 
 const app = express();
 
@@ -18,25 +18,25 @@ app.use(cors(corsOptions));
 app.use(bodyParser.json());
 
 //parse requests of content-type - application/urlencoder
-app.use(bodyParser.urlencoded({extended:true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 
 
 //simple route
-app.get("/",(req,res) => {
-    res.json({ message:"Welcome to gunjan's webapp - CSYE 6225 Assignment 1"})
-} )
-
-app.listen(PORT, () => {
-    console.log("server is running on port", PORT)
-})
+// app.get("/", (req, res) => {
+//     res.json({ message: "Welcome to gunjan's webapp - CSYE 6225 Assignment 1" })
+// })
 
 const database = require("./loaders/db.loader");
 
-require("./api/public.api")(app);
-
-database.sequelize.sync({force: true}).then(() => {
+database.sequelize.sync({ force: true }).then(() => {
     console.log('Drop and Resync Db');
-    initial();
-  }).catch(err=>{err});
+    app.listen(PORT, () => {
+        console.log("server is running on port", PORT)
+        require("./api/public.api")(app);
 
-  module.exports = app;
+        app.emit("serverStarted");
+    })
+
+}).catch(err => { err });
+
+module.exports = app;
