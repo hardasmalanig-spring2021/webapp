@@ -14,6 +14,7 @@ module.exports = function (app) {
 
     app.put("/v1/user/self",
         [
+            validation.checkNullRequest,
             auth.BasicAuth,
             validation.checkUsernameUpdate,
             validation.passwordValidation
@@ -30,6 +31,7 @@ module.exports = function (app) {
     app.post(
         "/v1/user",
         [
+            validation.checkNullRequest,
             validation.checkDuplicateUsername,
             validation.passwordValidation
         ],

@@ -1,9 +1,23 @@
 const db = require("../loaders/db.loader");
 const User = db.user;
 
+checkNullRequest = (req,res,next) => {
+  if(Object.keys(req.body).length === 0){
+    return  res.status(400).send({
+      message: "Request Failed, Enter fields in Request body"
+    });
+  }
+  next();
+}
 
 // validation to check if username in use and check password strength 
 checkDuplicateUsername = (req, res, next) => {
+
+  if(!req.body.username){
+    return  res.status(400).send({
+      message: "Request Failed, Username is a mandatory field"
+    });
+  }
 
   User.findOne({
     where: {
@@ -27,7 +41,7 @@ checkUsernameUpdate = (req, res, next) => {
       username: req.user.username
     }
   }).then(user => {
-    if ( req.body.username && (req.body.username != req.user.username) ) {
+    if (( req.body.username && (req.body.username != req.user.username)) || (req.body.username === "")) {
       res.status(400).send({
         message: "Username cannot be updated"
       });
@@ -55,7 +69,8 @@ passwordValidation = (req,res,next) => {
 const userValidation = {
   checkDuplicateUsername: checkDuplicateUsername,
   checkUsernameUpdate: checkUsernameUpdate,
-  passwordValidation: passwordValidation
+  passwordValidation: passwordValidation,
+  checkNullRequest: checkNullRequest
 
 };
 module.exports = userValidation;

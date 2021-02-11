@@ -14,6 +14,15 @@ let user = {
   password: "Adam@1995"
 }
 describe('POST /v1/user ', function () {
+
+  beforeEach( function(done) {
+      User.destroy({
+        where: {
+          username: user.username
+        }
+      });
+      done();
+  });
  
   it('should create a user in database', function (done) {
     request(app).post('/v1/user').send(user).end(function (err, res) {
@@ -23,7 +32,6 @@ describe('POST /v1/user ', function () {
   });
 
   it('should not create a user in database with weak password', function (done) {
-    user.username = "adamTest2@gmail.com";
     user.password = "adam";
     request(app).post('/v1/user').send(user).end(function (err, res) {
       expect(res.statusCode).to.equal(400);
