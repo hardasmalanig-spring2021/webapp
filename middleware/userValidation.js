@@ -5,11 +5,6 @@ const User = db.user;
 // validation to check if username in use and check password strength 
 checkDuplicateUsername = (req, res, next) => {
 
-  if (!/^(?=.*?[A-Z])(?=(.*[a-z]){1,})(?=(.*[\d]){1,})(?=(.*[\W]){1,})(?!.*\s).{8,}$/.test(req.body.password)) {
-    return res.status(401).send({
-      message: "Request Failed, Password is too weak. Please follow the STRONG password guidelines. "
-    });
-  }
   User.findOne({
     where: {
       username: req.body.username
