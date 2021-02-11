@@ -38,7 +38,7 @@ exports.getUserWithBasicAuth = (req, res) => {
   })
     .then(user => {
       if (!user) {
-        return res.status(404).send({ message: "User Not found with Basic Auth" });
+        return res.status(404).send({ message: "User Not found" });
       }
      
       res.status(200).send({
