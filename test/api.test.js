@@ -10,7 +10,7 @@ expect = chai.expect;
 let user = {
   first_name: "Adam",
   last_name: "Mayo",
-  username: "adammayor11995@gmail.com",
+  username: "adam@gmail.com",
   password: "Adam@1995"
 }
 describe('POST /v1/user ', function () {
@@ -23,10 +23,10 @@ describe('POST /v1/user ', function () {
   });
 
   it('should not create a user in database with weak password', function (done) {
-    user.username = "adam1@gmail.com";
+    user.username = "adamTest2@gmail.com";
     user.password = "adam";
     request(app).post('/v1/user').send(user).end(function (err, res) {
-      expect(res.statusCode).to.equal(401);
+      expect(res.statusCode).to.equal(400);
       expect(res.text).to.match(/Password is too weak/);
       done();
     });

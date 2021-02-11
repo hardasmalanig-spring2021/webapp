@@ -17,6 +17,8 @@ This webapp shows implementation of Restful API to create, get and update user i
 2. Express.js
 3. MySQL
 4. ORM : Sequelize
+5. Testing - Mocha, Chai, supertest
+6. User authentication - Basic Auth
 
 
 ## Build the project
