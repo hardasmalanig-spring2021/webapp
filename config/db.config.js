@@ -5,7 +5,7 @@ module.exports  = {
     USER: "gunjan",
     PORT: "3306",
     PASSWORD: "Sneha@9500",
-    DB: "testdb",
+    DB: "webapp",
     dialect: "mysql",
     pool:{
         max: 5,
