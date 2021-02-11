@@ -1,36 +1,17 @@
 # CSYE 6225 - Fall 2021
 ## WebApp
 
+Web application using technology stack that meets Cloud Native Web Application Requirements. 
+This webapp shows implementation of Restful API to create, get and update user information
+
 ## Requirements
- - For development, you will need Node.js and a node global package
+ - For development, you will need Node.js [official Node.js website](https://nodejs.org/) and a node global package
  - A code editor - suggested : Visual Studio code
  - Git Version Control 
  - MySql Installed in your OS
-
-### Node
-- #### Node installation on Windows
-
-  Just go on [official Node.js website](https://nodejs.org/) and download the installer.
-Also, be sure to have `git` available in your PATH, `npm` might need it (You can find git [here](https://git-scm.com/)).
-
-- #### Node installation on Ubuntu
-
-  You can install nodejs and npm easily with apt install, just run the following commands.
-    
-      $ sudo apt install nodejs
-      $ sudo apt install npm
-
-- #### Check if installation is successful
-
-      $ node --version
-        v8.11.3
-
-      $ npm --version
-        6.1.0
-
-- #### Update npm
-      $ npm install npm -
+ - To run the unit test node version > 10 required
       
+
 ## Technologies Used
 1. Node.js
 2. Express.js
@@ -53,3 +34,34 @@ Also, be sure to have `git` available in your PATH, `npm` might need it (You can
         $ npm start
 
 2. You can confirm whetherthe app is running by going to a browser and go to localhost:8080
+
+## Application Endpoints
+
+1. Create new user (POST Request) - Enter the user model in request field
+        
+        http://localhost:8080/v1/user 
+
+2. Get user details (GET Request) - This is using BasicAuth Authorization- Enter valid username and password
+        
+        http://localhost:8080/v1/user/self
+
+3. Update user informations (PUT Request) - This is using BasicAuth Authorization- Enter valid username and password
+        
+        http://localhost:8080/v1/user 
+ 
+## Run Unit Test
+
+A test case to check the post request is implemented
+
+        npm run test
+
+
+## Refernces
+
+- [https://medium.com/@tariqul.islam.rony/simple-rest-api-builing-with-mysql-and-express-js-and-testing-with-mocha-and-chai-ed0d19f25f79](https://medium.com/@tariqul.islam.rony/simple-rest-api-builing-with-mysql-and-express-js-and-testing-with-mocha-and-chai-ed0d19f25f79)
+
+- [https://softwareontheroad.com/ideal-nodejs-project-structure/](https://softwareontheroad.com/ideal-nodejs-project-structure/)
+
+- [https://blog.jscrambler.com/testing-apis-mocha-2/](https://blog.jscrambler.com/testing-apis-mocha-2/)
+
+- [https://sequelize.org/](https://sequelize.org/)
