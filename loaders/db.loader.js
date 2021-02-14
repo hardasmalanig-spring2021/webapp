@@ -33,5 +33,14 @@ try {
 }
 
 db.user = require("../models/user.model.js")(sequelize, Sequelize);
+db.book = require("../models/book.model.js")(sequelize, Sequelize);
+
+//Sequelize Association
+
+//db.user.hasMany(db.book, {foreignKey:'id'}); //One user can have many books
+db.book.belongsTo(db.user, {foreignKey: 'user_id'}); 
+
+
+
 
 module.exports = db;
