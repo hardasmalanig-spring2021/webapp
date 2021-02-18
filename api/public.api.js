@@ -17,7 +17,7 @@ module.exports = function (app) {
             validation.checkNullRequest,
             auth.BasicAuth,
             validation.checkUsernameUpdate,
-            validation.passwordValidation
+            validation.validateUserRequest
         ],
         userService.updateUser
     );
@@ -33,7 +33,7 @@ module.exports = function (app) {
         [
             validation.checkNullRequest,
             validation.checkDuplicateUsername,
-            validation.passwordValidation
+            validation.validateUserRequest
         ],
         userService.createUser
     )

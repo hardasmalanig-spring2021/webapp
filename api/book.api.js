@@ -13,18 +13,14 @@ module.exports = function (app) {
     app.post("/books",
         [
             auth.BasicAuth,
-            //bookValidation.checkNullRequestBook
-            bookValidation.checkPublishedDate
+            bookValidation.checkNullRequestBook,
+            bookValidation.checkDuplicateISBN
 
         ],
         bookService.createBook
     );
 
     app.get("/books/:id",
-        [
-            auth.BasicAuth,
-
-        ],
         bookService.getBook
     );
 

@@ -1,46 +1,47 @@
 const db = require("../loaders/db.loader");
 const Book = db.book;
 
-// checkNullRequestBook = (req, res) => {
-//     if (Object.keys(req.body).length === 0) {
-//         return res.status(400).send({
-//             message: "Request Failed, Enter fields in Request body"
-//         });
-//     }  if (!req.body.title) {
-//         return res.status(400).send({
-//             message: "Request Failed,  title cannot be blank"
-//         });
-//     }
-//      if (!req.body.author) {
-//         return res.status(400).send({
-//             message: "Request Failed, author cannot be blank"
-//         });
-//     }  if (!req.body.isbn) {
-//         return res.status(400).send({
-//             message: "Request Failed, isbn cannot be blank"
-//         });
-//     }  if (!req.body.published_date) {
-//         return res.status(400).send({
-//             message: "Request Failed,  pusblished date cannot be blank"
-//         });
-//     }
-//     next();
-// }
+checkNullRequestBook = (req, res, next) => {
+  const errorResponses = {};
+  if (Object.keys(req.body).length === 0) {
+    return res.status(400).send({
+      message: "Request Failed, Enter fields in Request body"
+    });
+  } if (!req.body.title || req.body.title === "") {
+    errorResponses["Missing Title"] = "Request Failed, Title is a mandatory field";
+  }
+  if (!req.body.author || req.body.author === "") {
+    errorResponses["Missing Author"] = " Request Failed, Author is a mandatory field";
+  } if (!req.body.isbn || req.body.isbn === "") {
+    errorResponses["Missing ISBN"] = "Request Failed, isbn is a mandatory field";
+  } if (!req.body.published_date || req.body.published_date === "") {
+    errorResponses["Missing Published Date"] = "Request Failed, Published date is a mandatory field";
+  }
 
-checkPublishedDate = (req,res, next) => {
-    var today = new Date();
-    var year = today.getFullYear();
-    var month = today.getMonth();
-   // var pYear = req.body.published_date.getFullYear();
-    var pMonth= req.body.published_date.getMonth();
-
-    console.log(year,month, pMonth)
-    next();
+  if (Object.keys(errorResponses).length != 0) {
+    return res.status(400).send(errorResponses);
+  }
+  next();
 }
 
+checkDuplicateISBN = (req, res, next) => {
+  Book.findOne({
+    where: {
+      isbn: req.body.isbn,
+    },
+  }).then((book) => {
+    if (book) {
+      res.status(400).send({
+        message: "Request Failed, ISBN already exists in the system ",
+      });
+      return;
+    }
+    next();
+  });
+};
 const bookValidation = {
-  // checkNullRequestBook:checkNullRequestBook
+  checkNullRequestBook: checkNullRequestBook,
+  checkDuplicateISBN: checkDuplicateISBN
 
-  checkPublishedDate:checkPublishedDate
-  };
-  module.exports = bookValidation;
+};
+module.exports = bookValidation;

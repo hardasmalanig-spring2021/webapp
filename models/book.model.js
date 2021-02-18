@@ -35,6 +35,7 @@ module.exports = (sequelize, Sequelize) => {
             validate: {
                 isDate: true,
                 notEmpty:true, 
+                isBefore: sequelize.fn('NOW')
                
             }
         },

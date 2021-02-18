@@ -40,7 +40,7 @@ exports.getUserWithBasicAuth = (req, res) => {
       if (!user) {
         return res.status(404).send({ message: "User Not found" });
       }
-     
+
       res.status(200).send({
         id: user.id,
         first_name: user.first_name,
@@ -49,38 +49,44 @@ exports.getUserWithBasicAuth = (req, res) => {
         account_created: user.createdAt,
         account_updated: user.updatedAt
       });
-      
+
     })
     .catch(err => {
       res.status(400).send({ message: err.message });
     });
-   
+
 };
 
 //Update User Information using basicAUth
 exports.updateUser = (req, res) => {
 
-  User.update({
-    first_name: req.body.first_name,
-    last_name: req.body.last_name,
-    password: bcrypt.hashSync(req.body.password, 8)
-  }, {
-    where: {
-      username: req.user.username
-    },
-  }).then(() => {
-    User.findOne({
+  const requestBody = {};
+  if (req.body.first_name) {
+    requestBody["first_name"] = req.body.first_name;
+  }
+
+  if (req.body.last_name) {
+    requestBody["last_name"] = req.body.last_name;
+  }
+
+  if (req.body.password) {
+    requestBody["fpassword"] = bcrypt.hashSync(req.body.password, 8);
+  }
+
+  User.update(requestBody,
+    {
       where: {
         username: req.user.username
-      }
-    }).then(user => {
-
-      res.status(204).send({
-    
-      });
-
+      },
+    }).then(() => {
+      User.findOne({
+        where: {
+          username: req.user.username
+        }
+      }).then(user => {
+        res.status(204).send();
+      })
     })
-  })
     .catch(err => {
       res.status(400).send({ message: err.message });
     });
