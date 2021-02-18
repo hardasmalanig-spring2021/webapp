@@ -69,12 +69,13 @@ exports.deleteBook = (req, res) => {
 
         // user_id = req.user.id
     }).then(book => {
-        if (book.user_id != req.user.id) {
-            return res.status(401).send({ message: "You are not authorized to delete this book" });
-        }
-        else if (!book) {
+        if (!book) {
             return res.status(404).send({ message: "Book Not found." });
         }
+       else if (book.user_id != req.user.id) {
+            return res.status(401).send({ message: "You are not authorized to delete this book" });
+        }
+        
         Book.destroy({
             where: {
                 id: req.params.id,
