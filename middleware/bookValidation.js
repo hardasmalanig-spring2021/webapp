@@ -24,6 +24,32 @@ checkNullRequestBook = (req, res, next) => {
   next();
 }
 
+isbnValidation = (req,res,next) => {
+  isbnRegex = /^(?=(?:\D*\d){10}(?:(?:\D*\d){3})?$)[\d-]+$/;
+
+  if(req.body.isbn){
+    if(!isbnRegex.test(req.body.isbn)){
+      return res.status(400).send({
+        message: "Request Failed, ISBN can contain numbers, '-' and 10 or 13 digits"
+      });
+    }
+  }
+  next();
+}
+
+publishedDateValidation = (req,res,next) =>{
+  dateRegex = /^(Jan(uary)?|Feb(ruary)?|Mar(ch)?|Apr(il)?|May|Jun(e)?|Jul(y)?|Aug(ust)?|Sep(tember)?|Oct(ober)?|Nov(ember)?|Dec(ember)?)\s?\d{0,2},\s+\d{4}/;
+
+  if(req.body.published_date && !dateRegex.test(req.body.published_date)){
+    return res.status(400).send({
+      message: "Request Failed, Date should be in format Month, year or Month dd, yyyy like May, 2020"
+    });
+  }
+  next();
+}
+
+
+
 checkDuplicateISBN = (req, res, next) => {
   Book.findOne({
     where: {
@@ -41,7 +67,9 @@ checkDuplicateISBN = (req, res, next) => {
 };
 const bookValidation = {
   checkNullRequestBook: checkNullRequestBook,
-  checkDuplicateISBN: checkDuplicateISBN
+  checkDuplicateISBN: checkDuplicateISBN,
+  isbnValidation:isbnValidation,
+  publishedDateValidation:publishedDateValidation
 
 };
 module.exports = bookValidation;

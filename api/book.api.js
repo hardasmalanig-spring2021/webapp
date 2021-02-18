@@ -14,7 +14,9 @@ module.exports = function (app) {
         [
             auth.BasicAuth,
             bookValidation.checkNullRequestBook,
-            bookValidation.checkDuplicateISBN
+            bookValidation.isbnValidation,
+            bookValidation.checkDuplicateISBN,
+            bookValidation.publishedDateValidation
 
         ],
         bookService.createBook
