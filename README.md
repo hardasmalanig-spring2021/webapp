@@ -50,6 +50,22 @@ This webapp shows implementation of Restful API to create, get and update user i
 3. Update user informations (PUT Request) - This is using BasicAuth Authorization- Enter valid username and password
         
         http://localhost:8080/v1/user 
+
+4. Only an authorized user can create a book (POST request), ISBN for the book should be Unique
+
+        http://localhost:8080/books
+
+5. Any user can request book with book id (GET Request)
+
+        http://localhost:8080/books/:id
+
+6. Any user can get all books available (GET Request)
+
+        http://localhost:8080/books
+
+6. Only an authorized user can delete a book (DELETE request) with bood id
+
+        http://localhost:8080/books/:id
  
 ## Run Unit Test
 
@@ -67,3 +83,7 @@ A test case to check the post request is implemented
 - [https://blog.jscrambler.com/testing-apis-mocha-2/](https://blog.jscrambler.com/testing-apis-mocha-2/)
 
 - [https://sequelize.org/](https://sequelize.org/)
+
+- [https://stackoverflow.com/questions/35413746/regex-to-match-date-like-month-name-day-comma-and-year/35413952](https://stackoverflow.com/questions/35413746/regex-to-match-date-like-month-name-day-comma-and-year/35413952)
+
+- [https://www.oreilly.com/library/view/regular-expressions-cookbook/9781449327453/ch04s04.html](https://www.oreilly.com/library/view/regular-expressions-cookbook/9781449327453/ch04s04.html)
