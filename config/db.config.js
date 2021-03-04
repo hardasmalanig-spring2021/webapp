@@ -1,11 +1,11 @@
 //Passing parameters to sequelize to configure with mysql database
 
 module.exports  = {
-    HOST: "localhost",
-    USER: "gunjan",
+    HOST: process.env.RDS_HOSTNAME || "localhost",
+    USER: process.env.RDS_USERNAME || "gunjan",
     PORT: "3306",
-    PASSWORD: "Sneha@9500",
-    DB: "webapp",
+    PASSWORD: process.env.RDS_PASSWORD || "Sneha@9500",
+    DB: process.env.RDS_DB_NAME  || "webapp",
     dialect: "mysql",
     pool:{
         max: 5,
