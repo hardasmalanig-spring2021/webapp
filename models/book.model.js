@@ -46,6 +46,10 @@ module.exports = (sequelize, Sequelize) => {
                 key: 'id'
             }
         },
+        book_images: {
+            type: Sequelize.JSON,
+            allowNull:true,
+        }
 
 
     },

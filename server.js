@@ -31,6 +31,7 @@ app.listen(PORT, () => {
 //routes
 require("./api/public.api")(app);
 require("./api/book.api")(app);
+require("./api/file.api")(app);
 
 
 module.exports = app;

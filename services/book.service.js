@@ -2,7 +2,9 @@ const { book } = require("../loaders/db.loader");
 const db = require("../loaders/db.loader");
 const Book = db.book;
 const User = db.user;
-
+const File = db.file;
+const s3 = require("../config/s3.config");
+const deleteParams = s3.deleteParams;
 //create book with basic auth
 exports.createBook = (req, res) => {
     User.findOne({
@@ -27,7 +29,8 @@ exports.createBook = (req, res) => {
                     isbn: book.isbn,
                     published_date: book.published_date,
                     book_created: book.book_created,
-                    user_id: book.user_id
+                    user_id: book.user_id,
+                    book_images: book.book_images || []
                 });
             }).catch(err => {
                 res.status(400).send({ message: err.message });
@@ -50,9 +53,10 @@ exports.getBook = (req, res) => {
             title: book.title,
             author: book.author,
             isbn: book.isbn,
-            published_date: book.published_date,
+            published_date: book.user,
             book_created: book.book_created,
-            user_id: book.user_id
+            user_id: book.user_id,
+            book_images: book.book_images || [],
         });
 
     }).catch(err => {
@@ -60,38 +64,53 @@ exports.getBook = (req, res) => {
     });
 }
 
-//Delete book with id
 exports.deleteBook = (req, res) => {
-    Book.findOne({
-        where: {
-            id: req.params.id
-        }
-
-        // user_id = req.user.id
-    }).then(book => {
-        if (!book) {
-            return res.status(404).send({ message: "Book Not found." });
-        }
-       else if (book.user_id != req.user.id) {
-            return res.status(401).send({ message: "You are not authorized to delete this book" });
-        }
-        
-        Book.destroy({
+    Book.findByPk(req.params.id).then((book) => {
+      if (!book) {
+        return res
+          .status(404)
+          .send({ message: "Request Failed, Book Not Found" });
+      } else if (book.user_id != req.user.id) {
+        return res
+          .status(401)
+          .send({ message: "Request Failed Unauthorized User." });
+      } else {
+        File.findAll({
+          raw: true,
+          where: {
+            book_id: req.params.id,
+          },
+        }).then((files) => {
+          for (let file of files) {
+            deleteParams.Key = file.s3_object_name;
+            s3.s3Client.deleteObject(deleteParams, (err) => {
+              if (err) {
+                return res.status(400).send({
+                  message: "Unable to delete image from s3" + err,
+                });
+              }
+            });
+          }
+          Book.destroy({
             where: {
-                id: req.params.id,
-                user_id: req.user.id
-            }
-
-        }).then(Book => {
-            res.status(204).send({})
-        })
-    })
-
-}
+              id: req.params.id,
+              user_id: req.user.id,
+            },
+          })
+            .then(() => {
+              res.status(204).send();
+            })
+            .catch((err) => {
+              res.status(400).send({ message: err.message });
+            });
+        });
+      }
+    });
+  };
 
 //get all books
-exports.getAllBooks = (req,res) => {
-    Book.findAll({raw:true}).then(book => {
+exports.getAllBooks = (req, res) => {
+    Book.findAll({ raw: true }).then(book => {
         if (!book) {
             return res.status(404).send({ message: "There are no books in the database" });
         }
