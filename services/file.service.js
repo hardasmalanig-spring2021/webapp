@@ -67,7 +67,7 @@ exports.uploadImage = (req, res) => {
                                             file_name: file.file_name,
                                             s3_object_name: file.s3_object_name,
                                             file_id: file.file_id,
-                                            created_date: file.created_date,
+                                            created_date: file.file_created,
                                             user_id: file.user_id,
                                         });
                                         if (file_response.length == req.files.length) {

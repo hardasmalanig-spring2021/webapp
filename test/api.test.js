@@ -1,42 +1,25 @@
-const app = require('../server');
-const chai = require('chai');
-const request = require('supertest');
-const db = require("../loaders/db.loader");
-const User = db.user;
-
+const app = require("../server");
+const chai = require("chai");
 const should = chai.should();
+const httpMocks = require('node-mocks-http');
+const { validation } = require("../middleware");
 
-expect = chai.expect;
-let user = {
-  first_name: "Adam",
-  last_name: "Mayo",
-  username: "adam@gmail.com",
-  password: "Adam@1995"
-}
-describe('POST /v1/user ', function () {
+const request = httpMocks.createRequest({
+  body: {
+    first_name:'Gunjan1234'
+  }
+});
 
-  beforeEach( function(done) {
-      User.destroy({
-        where: {
-          username: user.username
-        }
-      });
-      done();
-  });
- 
-  it('should create a user in database', function (done) {
-    request(app).post('/v1/user').send(user).end(function (err, res) {
-      res.status.should.be.equal(201);
-      done();
-    });
-  });
+let response = httpMocks.createResponse();
 
-  it('should not create a user in database with weak password', function (done) {
-    user.password = "adam";
-    request(app).post('/v1/user').send(user).end(function (err, res) {
-      expect(res.statusCode).to.equal(400);
-      expect(res.text).to.match(/Password is too weak/);
-      done();
-    });
+describe("Check first name should not contain characters", function () {
+  it("should return status 400 & message: First name should only contain characters", function(done) {
+    const next = function() {done();}
+    validation.validateUserRequest(request,response,next)
+    const message = response._getData().firstNameError;
+    const expectedMessage = "First name should only contain characters"
+    message.should.include(expectedMessage);
+    response.statusCode.should.be.equal(400);
+    done();
   });
 });
