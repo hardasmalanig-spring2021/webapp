@@ -1,7 +1,7 @@
 # CSYE 6225 - Fall 2021
 ## WebApp
 
-Web application using technology stack that meets Cloud Native Web Application Requirements. 
+Web application using Technology stack that meets Cloud Native Web Application Requirements. 
 This webapp shows implementation of Restful API to create, get and update user information
 
 ## Requirements
