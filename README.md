@@ -2,7 +2,7 @@
 ## WebApp
 
 Web application using Technology stack that meets Cloud Native Web Application Requirements. 
-This webapp shows implementation of Restful API to create, get and update user information
+This webapp shows implementation of Restful API to create, get and update user information.
 
 ## Requirements
  - For development, you will need Node.js [official Node.js website](https://nodejs.org/) and a node global package
