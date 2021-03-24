@@ -1,9 +1,12 @@
 const db = require("../loaders/db.loader");
 const Book = db.book;
+const log = require("../log")
+const logger = log.getLogger('logs');
 
 checkNullRequestBook = (req, res, next) => {
   const errorResponses = {};
   if (Object.keys(req.body).length === 0) {
+    logger.error("Error - Request Body Empty" );
     return res.status(400).send({
       message: "Request Failed, Enter fields in Request body"
     });
@@ -19,6 +22,7 @@ checkNullRequestBook = (req, res, next) => {
   }
 
   if (Object.keys(errorResponses).length != 0) {
+    logger.error("Error - Incorrect request",errorResponses );
     return res.status(400).send(errorResponses);
   }
   next();
@@ -29,6 +33,7 @@ isbnValidation = (req,res,next) => {
 
   if(req.body.isbn){
     if(!isbnRegex.test(req.body.isbn)){
+      logger.error("Error - Incorrect ISBN format" );
       return res.status(400).send({
         message: "Request Failed, ISBN can contain numbers, '-' and 10 or 13 digits"
       });
@@ -41,6 +46,7 @@ publishedDateValidation = (req,res,next) =>{
   dateRegex = /^(Jan(uary)?|Feb(ruary)?|Mar(ch)?|Apr(il)?|May|Jun(e)?|Jul(y)?|Aug(ust)?|Sep(tember)?|Oct(ober)?|Nov(ember)?|Dec(ember)?)\s?\d{0,2},\s+\d{4}/;
 
   if(req.body.published_date && !dateRegex.test(req.body.published_date)){
+    logger.error("Error - Incorrect Date format" );
     return res.status(400).send({
       message: "Request Failed, Date should be in format Month, year or Month dd, yyyy like May, 2020"
     });
@@ -57,6 +63,7 @@ checkDuplicateISBN = (req, res, next) => {
     },
   }).then((book) => {
     if (book) {
+      logger.error("Error - ISBN already exists" );
       res.status(400).send({
         message: "Request Failed, ISBN already exists in the system ",
       });

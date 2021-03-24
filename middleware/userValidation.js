@@ -1,12 +1,13 @@
 const db = require("../loaders/db.loader");
 const User = db.user;
-
-
+const log = require("../log")
+const logger = log.getLogger('logs');
 const passwordRegex = /^(?=.*?[A-Z])(?=(.*[a-z]){1,})(?=(.*[\d]){1,})(?=(.*[\W]){1,})(?!.*\s).{8,}$/;
 const nameRegex = /^[a-z ,. '-']+$/i;
 
 checkNullRequest = (req, res, next) => {
   if (Object.keys(req.body).length === 0) {
+    logger.error("Error - Request Body Empty" );
     return res.status(400).send({
       message: "Request Failed, Enter fields in Request body"
     });
@@ -18,6 +19,7 @@ checkNullRequest = (req, res, next) => {
 checkDuplicateUsername = (req, res, next) => {
 
   if (!req.body.username) {
+    logger.error("Error - Username is missing" );
     return res.status(400).send({
       message: "Request Failed, Username is a mandatory field"
     });
@@ -29,6 +31,7 @@ checkDuplicateUsername = (req, res, next) => {
     }
   }).then(user => {
     if (user) {
+      logger.error("Error - Username  is already in use." );
       res.status(400).send({
         message: "Request Failed, Username is already in use. Please try using a different username and resubmit the request"
       });
@@ -46,6 +49,7 @@ checkUsernameUpdate = (req, res, next) => {
     }
   }).then(user => {
     if ((req.body.username && (req.body.username != req.user.username)) || (req.body.username === "")) {
+      logger.error("Error - Username cannot be updated" );
       res.status(400).send({
         message: "Username cannot be updated"
       });
@@ -58,11 +62,13 @@ checkUsernameUpdate = (req, res, next) => {
 
 passwordValidation = (req, res, next) => {
   if (!req.body.password) {
+    logger.error("Error - Password cannot be empty " );
     return res.status(400).send({
       message: "Request Failed, Password cannot be empty "
     });
   }
   else if (!passwordRegex.test(req.body.password)) {
+    logger.error("Error - Password too weak" );
     return res.status(400).send({
       message: "Request Failed, Password is too weak. Please follow the STRONG password guidelines. "
     });
@@ -73,6 +79,7 @@ passwordValidation = (req, res, next) => {
 validateUserRequest = (req, res, next) => {
   const errorResponses = {};
   if (req.body.password === "") {
+    logger.error("Error - Password cannot be null" );
     return res.status(400).send({
       message: "Request Failed, Password field cannot be null",
     })
@@ -96,6 +103,7 @@ validateUserRequest = (req, res, next) => {
   }
 
   if (Object.keys(errorResponses).length != 0) {
+    logger.error("Error - Incorrect request",errorResponses );
     return res.status(400).send(errorResponses);
   }
 
