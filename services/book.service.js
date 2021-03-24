@@ -46,7 +46,7 @@ exports.createBook = (req, res) => {
                     user_id: book.user_id,
                     book_images: book.book_images || []
                 });
-                Metrics.timing('api.user.POST.createBook',api_timer);
+                Metrics.timing('api.book.POST.createBook',api_timer);
             }).catch(err => {
                 logger.error("Error while creating the book",err.message);
                 res.status(400).send({ message: err.message });
