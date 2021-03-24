@@ -28,7 +28,7 @@ exports.uploadImage = (req, res) => {
         } else {
             let images = []
             for (let image of req.files) {
-                const UUID = uuidv4();book
+                const UUID = uuidv4();
                 if (!image.originalname.match(/\.(jpg|jpeg|png)$/i)) {
                     logger.error("Error while uploading the file - Inforrect File Format");
                     return res
