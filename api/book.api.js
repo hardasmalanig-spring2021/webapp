@@ -34,7 +34,7 @@ module.exports = function (app) {
         bookService.deleteBook
     );
 
-    app.get("/allbooks",
+    app.get("/books",
         bookService.getAllBooks
     );
 }
