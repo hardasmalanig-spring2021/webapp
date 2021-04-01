@@ -44,7 +44,7 @@ jobs:
         run: |
           output=$(aws deploy create-deployment \
             --application-name csye6225-webapp \
-            --deployment-config-name CodeDeployDefault.AllAtOnce \
+            --deployment-config-name CodeDeployDefault.OneAtATime \
             --deployment-group-name csye6225-webapp-deployment \
             --description "CSYE6255 - CodeDeploy" \
             --s3-location bucket=${{secrets.CODEDEPLOY_BUCKET}},key=build_artifact.zip,bundleType=zip \
