@@ -38,5 +38,12 @@ module.exports = function (app) {
         userService.createUser
     )
 
+    app.get(
+        "/healthStatus",
+        (req,res) => {
+            res.status(200).send({message:"Status healthy"});
+        }
+    )
+
     
 }
