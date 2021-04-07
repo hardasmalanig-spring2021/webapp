@@ -179,6 +179,11 @@ exports.deleteBook = (req, res) => {
           .then(() => {
             Metrics.timing('db.book.DELETE.deleteBook', db_timer);
             logger.info("delete Book - 1 ");
+
+            AWS.config.update({
+              region: "us-east-1"
+            });
+
             var params = {
               MessageStructure: 'json',
               Message: JSON.stringify({
