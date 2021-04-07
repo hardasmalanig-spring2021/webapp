@@ -48,7 +48,7 @@ exports.createBook = (req, res) => {
             "default": JSON.stringify({
               "dynamo_tablename": process.env.DYNAMO_DB_TABLE,
               "api_url": process.env.PROFILE_AWS + "." + process.env.NAME_DOMAIN,
-              "email_check_flag": "book_create",
+              "email_check_flag": "book_created",
               "book_id": book.id,
               "book_name": book.title,
               "book_isbn": book.isbn,
@@ -190,7 +190,7 @@ exports.deleteBook = (req, res) => {
                 "default": JSON.stringify({
                   "dynamo_tablename": process.env.DYNAMO_DB_TABLE,
                   "api_url": process.env.PROFILE_AWS + "." + process.env.NAME_DOMAIN,
-                  "email_check_flag": "book_create",
+                  "email_check_flag": "book_deleted",
                   "book_id": req.params.id,
                   "book_name": bookTitle,
                   "email": req.user.username
