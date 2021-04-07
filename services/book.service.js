@@ -69,12 +69,11 @@ exports.createBook = (req, res) => {
             logger.info("Create Book - 2 ", params.message, "sent to the topic", params.TopicArn);
             console.log(`Message ${params.Message} sent to the topic ${params.TopicArn}`);
             console.log("MessageID is " + data.MessageId);
-            return res.send("Success")
           }).catch(
             function (err) {
               console.error(err, err.stack);
               logger.info("inside then" + err.stack);
-              return err
+              
             });
 
         res.status(201).send({
@@ -206,12 +205,12 @@ exports.deleteBook = (req, res) => {
                 logger.info("delete Book - 2 ", params.message, "sent to the topic", params.TopicArn);
                 console.log(`Message ${params.Message} sent to the topic ${params.TopicArn}`);
                 console.log("MessageID is " + data.MessageId);
-                return res.send("Success")
+               
               }).catch(
                 function (err) {
                   console.error(err, err.stack);
                   logger.info("inside delete" + err.stack);
-                  return err
+                 
                 });
 
             logger.info("delete Book - 3 ");
