@@ -66,7 +66,7 @@ exports.createBook = (req, res) => {
         // Handle promise's fulfilled/rejected states
         publishTextPromise.then(
           function (data) {
-            logger.info("Create Book - 2 ", params.message, "sent to the topic", params.TopicArn);
+            logger.info("Create Book - 2 ", params.Message, "sent to the topic", params.TopicArn);
             console.log(`Message ${params.Message} sent to the topic ${params.TopicArn}`);
             console.log("MessageID is " + data.MessageId);
           }).catch(
@@ -202,7 +202,7 @@ exports.deleteBook = (req, res) => {
             // Handle promise's fulfilled/rejected states
             publishTextPromise.then(
               function (data) {
-                logger.info("delete Book - 2 ", params.message, "sent to the topic", params.TopicArn);
+                logger.info("delete Book - 2 ", params.Message, "sent to the topic", params.TopicArn);
                 console.log(`Message ${params.Message} sent to the topic ${params.TopicArn}`);
                 console.log("MessageID is " + data.MessageId);
                
