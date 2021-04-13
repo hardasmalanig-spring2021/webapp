@@ -1,6 +1,10 @@
 const config = require("../config/db.config.js");
 const Sequelize = require("sequelize");
-
+const {
+  QueryTypes
+} = require("sequelize");
+const log = require("../log")
+const logger = log.getLogger('logs');
 //creating sequelize instance
 const sequelize = new Sequelize(
   config.DB,
